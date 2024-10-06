@@ -15,3 +15,7 @@
 💻 Use the web app to create your game and deploy a contract to Base.
 
 🏅 Connect to the contract using our library to manage game state, achievements, and leaderboards.
+
+# Blockers/Concerns
+
+1. What if players interact directly with contract, for e.g., setting leaderboard?
