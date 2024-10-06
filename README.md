@@ -1,23 +1,17 @@
-# Baseplay
+# 🎮 Baseplay
 
-Baseplay is a platform for creating and playing games on the Base blockchain.
+🚀 Baseplay is a platform for creating and playing games on the Base blockchain.
 
-# Why?
+# 🤔 Why?
 
-People want to use their onchain assets to build games.
+💎 People want to use their onchain assets to build games, but managing databases, auth, and security is time-consuming.
 
-Spinning their own database to provide services like leaderboards, game state in game.
+🏆 Baseplay provides on-chain services like leaderboards and achievements, similar to Google Play Games for Android.
 
-Then spending time to manage auth, security, etc.
+⛓️ Our community prefers on-chain solutions, making Baseplay an ideal platform for blockchain gaming.
 
-With services like coinbase wallet, smart wallets you can manage auth.
+# 🛠️ How
 
-The only thing missing is a way to create games, have services like on chain leaderboard, achievements and many more.
+💻 Use the web app to create your game and deploy a contract to Base.
 
-The best existing example of such a system is google play games.
-
-No android dev has to build their own leaderboard system.
-
-They can use google play games.
-
-Since the preference in our community is to have everything on chain, having on chain achievements makes more sense.
+🏅 Connect to the contract using our library to manage game state, achievements, and leaderboards.
