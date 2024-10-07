@@ -13,8 +13,9 @@ async function main() {
   // Deploy a test Game using GameFactory
   const gameName = "Test Game";
   const gameDescription = "This is a test game deployed during the deployment script.";
+  const gameLink = "https://example.com/test-game"; // Added game link
 
-  const createGameTx = await gameFactory.createGame(gameName, gameDescription);
+  const createGameTx = await gameFactory.createGame(gameName, gameDescription, gameLink); // Pass the game link
   const receipt = await createGameTx.wait();
 
   // Get the GameCreated event from the transaction receipt

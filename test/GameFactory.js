@@ -16,8 +16,9 @@ describe("GameFactory", function () {
     it("should create a new game and emit GameCreated event", async function () {
         const gameName = "Test Game";
         const gameDescription = "This is a test game description";
+        const gameLink = "https://example.com/test-game"; // Added game link
         
-        await expect(gameFactory.createGame(gameName, gameDescription))
+        await expect(gameFactory.createGame(gameName, gameDescription, gameLink))
             .to.emit(gameFactory, "GameCreated")
             .withArgs(ethers.isAddress, gameName, gameDescription);
 
@@ -31,11 +32,13 @@ describe("GameFactory", function () {
     it("should fetch all games", async function () {
         const gameName1 = "Test Game 1";
         const gameDescription1 = "This is a test game description 1";
+        const gameLink1 = "https://example.com/test-game-1"; // Added game link
         const gameName2 = "Test Game 2";
         const gameDescription2 = "This is a test game description 2";
+        const gameLink2 = "https://example.com/test-game-2"; // Added game link
 
-        await gameFactory.createGame(gameName1, gameDescription1);
-        await gameFactory.createGame(gameName2, gameDescription2);
+        await gameFactory.createGame(gameName1, gameDescription1, gameLink1);
+        await gameFactory.createGame(gameName2, gameDescription2, gameLink2);
 
         const games = await gameFactory.getAllGames();
         console.log("All games:", games);
