@@ -156,16 +156,16 @@ contract Game {
     }
 
     // Function: Gets the details of all achievements
-    function getAllAchievements() public view returns (string[] memory names, string[] memory descriptions, string[] memory badges, address[][] memory players) {
+    function getAllAchievements() public view returns (string[] memory names, string[] memory descriptions, string[] memory badges, uint256[] memory playerCounts) {
         uint256 totalAchievements = achievementManager.getTotalAchievements();
         names = new string[](totalAchievements);
         descriptions = new string[](totalAchievements);
         badges = new string[](totalAchievements);
-        players = new address[][](totalAchievements);
+        playerCounts = new uint256[](totalAchievements);
 
         for (uint256 i = 0; i < totalAchievements; i++) {
             (names[i], descriptions[i], badges[i]) = achievementManager.getAchievement(i);
-            players[i] = achievementManager.getPlayersWithAchievement(i);
+            playerCounts[i] = achievementManager.getAchievementUnlockCount(i);
         }
     }
 

@@ -93,16 +93,16 @@ describe("Game", function () {
       await game.connect(owner).addAchievement(2, "Third Win", "Third Win Description", "uri_to_image_3");
 
       console.log("Getting all achievements");
-      const [names, descriptions, badges, players] = await game.getAllAchievements();
+      const [names, descriptions, badges, playerCounts] = await game.getAllAchievements();
       console.log("Achievements names:", names);
       console.log("Achievements descriptions:", descriptions);
       console.log("Achievements badges:", badges);
-      console.log("Achievements players:", players);
+      console.log("Achievements player counts:", playerCounts);
 
       expect(names).to.be.an('array');
       expect(descriptions).to.be.an('array');
       expect(badges).to.be.an('array');
-      expect(players).to.be.an('array');
+      expect(playerCounts).to.be.an('array');
     });
 
     it("should show achievements from Game.sol", async function () {
@@ -112,16 +112,16 @@ describe("Game", function () {
       await game.connect(owner).addAchievement(2, "Third Win", "Third Win Description", "uri_to_image_3");
 
       console.log("Showing achievements from Game.sol");
-      const [names, descriptions, badges, players] = await game.getAllAchievements();
+      const [names, descriptions, badges, playerCounts] = await game.getAllAchievements();
       console.log("Achievements names:", names);
       console.log("Achievements descriptions:", descriptions);
       console.log("Achievements badges:", badges);
-      console.log("Achievements players:", players);
+      console.log("Achievements player counts:", playerCounts);
 
       expect(names).to.be.an('array');
       expect(descriptions).to.be.an('array');
       expect(badges).to.be.an('array');
-      expect(players).to.be.an('array');
+      expect(playerCounts).to.be.an('array');
     });
 
     it("should get player achievements list", async function () {

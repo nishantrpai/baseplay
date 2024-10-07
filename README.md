@@ -30,5 +30,5 @@
 - Game preview link from ipfs can be added to the contract
 - Avoid spam with $8/game submission that way no one can spam the games
 - ~~Add a game url to game.sol so it avoids so script works on that domain or localhost~~
-- Get all achievements and players who achieved them
-- When a user views the leaderboard, they should see the achievements they have achieved
+- ~~Get all achievements and players who achieved them~~
+- ~~When a user views the leaderboard, they should see the achievements they have achieved~~
