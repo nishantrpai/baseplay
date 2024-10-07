@@ -10,6 +10,7 @@ contract Game {
     address public owner;
     string public gameName;
     string public gameDescription;
+    string public gameLink; // Added game link for web-based access
     mapping(address => uint256) public playerScores;
     mapping(address => bool) public bannedPlayers;
     uint256 public totalPlayers;
@@ -22,11 +23,12 @@ contract Game {
     event PlayerBanned(address indexed player);
     event NewPlayerAdded(address indexed player);
 
-    constructor(address _owner, string memory _gameName, string memory _gameDescription) {
+    constructor(address _owner, string memory _gameName, string memory _gameDescription, string memory _gameLink) {
         require(bytes(_gameDescription).length <= 140, "Description must be 140 characters or less");
         owner = _owner;
         gameName = _gameName;
         gameDescription = _gameDescription;
+        gameLink = _gameLink; // Initialize game link
         achievementManager = new AchievementManager();
         leaderboardManager = new LeaderboardManager();
     }
@@ -63,6 +65,11 @@ contract Game {
     // Function: Get the game name
     function getGameName() public view returns (string memory) {
         return gameName;
+    }
+
+    // Function: Get the game link
+    function getGameLink() public view returns (string memory) {
+        return gameLink; // Added function to retrieve game link
     }
 
     // Function: Adds a new achievement to the game

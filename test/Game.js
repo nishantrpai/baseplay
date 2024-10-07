@@ -10,10 +10,12 @@ describe("Game", function () {
   beforeEach(async function () {
     [owner, player1, player2] = await ethers.getSigners();
     const Game = await ethers.getContractFactory("Game");
-    game = await Game.deploy(owner.address, "Test Game", "This is a test game description");
+    const gameLink = "https://example.com/test-game"; // Added game link
+    game = await Game.deploy(owner.address, "Test Game", "This is a test game description", gameLink);
     await game.waitForDeployment();
     console.log("Game contract deployed with name:", await game.gameName());
     console.log("Game contract deployed with description:", await game.gameDescription());
+    console.log("Game contract deployed with link:", await game.getGameLink()); // Log the game link
   });
 
   describe("Leaderboard", function () {
@@ -23,6 +25,10 @@ describe("Game", function () {
       const score = await game.getScore(player1.address);
       console.log("Player1 score:", score.toString());
       expect(score).to.equal(100);
+
+      const totalPlayers = await game.getTotalPlayers();
+      console.log("Total players:", totalPlayers.toString());
+      expect(totalPlayers).to.equal(1);
 
       console.log("Getting top players");
       const topPlayers = await game.getTopPlayers();
@@ -36,6 +42,10 @@ describe("Game", function () {
       console.log("Updating scores for player1 and player2");
       await game.connect(player1).updateScore(100);
       await game.connect(player2).updateScore(200);
+
+      const totalPlayers = await game.getTotalPlayers();
+      console.log("Total players:", totalPlayers.toString());
+      expect(totalPlayers).to.equal(2);
 
       console.log("Getting top players");
       const topPlayers = await game.getTopPlayers();
