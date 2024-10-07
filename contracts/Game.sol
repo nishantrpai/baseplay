@@ -23,6 +23,7 @@ contract Game {
     event PlayerBanned(address indexed player);
     event NewPlayerAdded(address indexed player);
     event PlayerUnbanned(address indexed player);
+    event AchievementAdded(uint256 indexed achievementId, string name, string description, string imageURI); // Added event for achievement with name
 
     constructor(address _owner, string memory _gameName, string memory _gameDescription, string memory _gameLink) {
         require(bytes(_gameDescription).length <= 140, "Description must be 140 characters or less");
@@ -75,8 +76,9 @@ contract Game {
 
     // Function: Adds a new achievement to the game
     // Can only be called by the owner
-    function addAchievement(uint256 achievementId, string memory description, string memory imageURI) public onlyOwner {
-        achievementManager.addAchievement(achievementId, description, imageURI);
+    function addAchievement(uint256 achievementId, string memory name, string memory description, string memory imageURI) public onlyOwner {
+        achievementManager.addAchievement(achievementId, name, description, imageURI);
+        emit AchievementAdded(achievementId, name, description, imageURI); // Emit event when achievement is added with name
     }
 
     // Function: Unlocks an achievement for a player
@@ -123,7 +125,6 @@ contract Game {
         return playerScores[player];
     }
 
-
     // Function: Retrieves the top 10 players
     // This is a view function and doesn't modify the contract state
     function getTopPlayers() public view returns (LeaderboardManager.LeaderboardEntry[10] memory) {
@@ -138,7 +139,7 @@ contract Game {
 
     // Function: Gets the description and image URI of an achievement
     // This is a view function and doesn't modify the contract state
-    function getAchievement(uint256 achievementId) public view returns (string memory description, string memory imageURI) {
+    function getAchievement(uint256 achievementId) public view returns (string memory name, string memory description, string memory imageURI) {
         return achievementManager.getAchievement(achievementId);
     }
 
@@ -152,5 +153,19 @@ contract Game {
     // This is a view function and doesn't modify the contract state
     function getAchievementUnlockCount(uint256 achievementId) public view returns (uint256) {
         return achievementManager.getAchievementUnlockCount(achievementId);
+    }
+
+    // Function: Gets the details of all achievements
+    function getAllAchievements() public view returns (string[] memory names, string[] memory descriptions, string[] memory badges, address[][] memory players) {
+        uint256 totalAchievements = achievementManager.getTotalAchievements();
+        names = new string[](totalAchievements);
+        descriptions = new string[](totalAchievements);
+        badges = new string[](totalAchievements);
+        players = new address[][](totalAchievements);
+
+        for (uint256 i = 0; i < totalAchievements; i++) {
+            (names[i], descriptions[i], badges[i]) = achievementManager.getAchievement(i);
+            players[i] = achievementManager.getPlayersWithAchievement(i);
+        }
     }
 }

@@ -69,7 +69,7 @@ describe("Game", function () {
   describe("Achievements", function () {
     it("should add and unlock achievements", async function () {
       console.log("Adding achievement");
-      await game.connect(owner).addAchievement(1, "First Win", "uri_to_image");
+      await game.connect(owner).addAchievement(1, "First Win", "First Win Description", "uri_to_image");
       console.log("Unlocking achievement for player1");
       await game.connect(owner).unlockAchievement(player1.address, 1);
 
@@ -79,11 +79,49 @@ describe("Game", function () {
 
       const achievement = await game.getAchievement(1);
       console.log("Achievement description:", achievement.description);
-      expect(achievement.description).to.equal("First Win");
+      expect(achievement.description).to.equal("First Win Description");
 
       const achievementCount = await game.getAchievementUnlockCount(1);
       console.log("Achievement unlock count:", achievementCount.toString());
       expect(achievementCount).to.equal(1); // Expecting the count to be 1 after unlocking
+    });
+
+    it("should get all achievements", async function () {
+      console.log("Adding achievements");
+      await game.connect(owner).addAchievement(0, "First Win", "First Win Description", "uri_to_image_1");
+      await game.connect(owner).addAchievement(1, "Second Win", "Second Win Description", "uri_to_image_2");
+      await game.connect(owner).addAchievement(2, "Third Win", "Third Win Description", "uri_to_image_3");
+
+      console.log("Getting all achievements");
+      const [names, descriptions, badges, players] = await game.getAllAchievements();
+      console.log("Achievements names:", names);
+      console.log("Achievements descriptions:", descriptions);
+      console.log("Achievements badges:", badges);
+      console.log("Achievements players:", players);
+
+      expect(names).to.be.an('array');
+      expect(descriptions).to.be.an('array');
+      expect(badges).to.be.an('array');
+      expect(players).to.be.an('array');
+    });
+
+    it("should show achievements from Game.sol", async function () {
+      console.log("Adding achievements");
+      await game.connect(owner).addAchievement(0, "First Win", "First Win Description", "uri_to_image_1");
+      await game.connect(owner).addAchievement(1, "Second Win", "Second Win Description", "uri_to_image_2");
+      await game.connect(owner).addAchievement(2, "Third Win", "Third Win Description", "uri_to_image_3");
+
+      console.log("Showing achievements from Game.sol");
+      const [names, descriptions, badges, players] = await game.getAllAchievements();
+      console.log("Achievements names:", names);
+      console.log("Achievements descriptions:", descriptions);
+      console.log("Achievements badges:", badges);
+      console.log("Achievements players:", players);
+
+      expect(names).to.be.an('array');
+      expect(descriptions).to.be.an('array');
+      expect(badges).to.be.an('array');
+      expect(players).to.be.an('array');
     });
   });
 

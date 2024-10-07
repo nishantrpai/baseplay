@@ -8,6 +8,7 @@ import "./AchievementBadge.sol";
 contract AchievementManager {
     /// @dev Struct to store achievement details
     struct Achievement {
+        string name; // Added name field
         string description;
         string imageURI;
         AchievementBadge badge;
@@ -18,20 +19,24 @@ contract AchievementManager {
     mapping(uint256 => Achievement) public achievements;
     /// @dev Mapping of player addresses to their unlocked achievements
     mapping(address => mapping(uint256 => bool)) public playerAchievements;
+    /// @dev Counter to keep track of the total number of achievements
+    uint256 public totalAchievements;
 
     /// @dev Event emitted when a player unlocks an achievement
     event AchievementUnlocked(address player, uint256 achievementId);
     /// @dev Event emitted when a new achievement is added
-    event AchievementAdded(uint256 achievementId, string description, string imageURI);
+    event AchievementAdded(uint256 achievementId, string name, string description, string imageURI);
 
     /// @notice Adds a new achievement to the system
     /// @param achievementId Unique identifier for the achievement
+    /// @param name Name of the achievement
     /// @param description Text description of the achievement
     /// @param imageURI URI of the image associated with the achievement
-    function addAchievement(uint256 achievementId, string memory description, string memory imageURI) public {
+    function addAchievement(uint256 achievementId, string memory name, string memory description, string memory imageURI) public {
         AchievementBadge newBadge = new AchievementBadge(description, imageURI);
-        achievements[achievementId] = Achievement(description, imageURI, newBadge, 0);
-        emit AchievementAdded(achievementId, description, imageURI);
+        achievements[achievementId] = Achievement(name, description, imageURI, newBadge, 0);
+        totalAchievements++;
+        emit AchievementAdded(achievementId, name, description, imageURI);
     }
 
     /// @notice Unlocks an achievement for a player
@@ -57,11 +62,12 @@ contract AchievementManager {
 
     /// @notice Retrieves the details of a specific achievement
     /// @param achievementId ID of the achievement to retrieve
+    /// @return name Name of the achievement
     /// @return description Text description of the achievement
     /// @return imageURI URI of the image associated with the achievement
-    function getAchievement(uint256 achievementId) public view returns (string memory description, string memory imageURI) {
+    function getAchievement(uint256 achievementId) public view returns (string memory name, string memory description, string memory imageURI) {
         Achievement memory achievement = achievements[achievementId];
-        return (achievement.description, achievement.imageURI);
+        return (achievement.name, achievement.description, achievement.imageURI);
     }
 
     /// @notice Gets the number of players who have unlocked a specific achievement
@@ -69,5 +75,40 @@ contract AchievementManager {
     /// @return uint256 The number of players who have unlocked the achievement
     function getAchievementUnlockCount(uint256 achievementId) public view returns (uint256) {
         return achievements[achievementId].unlockCount;
+    }
+
+    /// @notice Gets the total number of achievements
+    /// @return uint256 The total number of achievements
+    function getTotalAchievements() public view returns (uint256) {
+        return totalAchievements;
+    }
+
+    /// @notice Gets the name of a specific achievement
+    /// @param achievementId ID of the achievement to retrieve the name for
+    /// @return string The name of the achievement
+    function getAchievementName(uint256 achievementId) public view returns (string memory) {
+        return achievements[achievementId].name;
+    }
+
+    /// @notice Gets the badge of a specific achievement
+    /// @param achievementId ID of the achievement to retrieve the badge for
+    /// @return AchievementBadge The badge of the achievement
+    function getAchievementBadge(uint256 achievementId) public view returns (AchievementBadge) {
+        return achievements[achievementId].badge;
+    }
+
+    /// @notice Gets the players who have unlocked a specific achievement
+    /// @param achievementId ID of the achievement to retrieve the players for
+    /// @return address[] The addresses of the players who have unlocked the achievement
+    function getPlayersWithAchievement(uint256 achievementId) public view returns (address[] memory) {
+        address[] memory players = new address[](achievements[achievementId].unlockCount);
+        uint256 count = 0;
+        for (uint256 i = 0; i < achievements[achievementId].unlockCount; i++) {
+            if (playerAchievements[players[i]][achievementId]) {
+                players[count] = players[i];
+                count++;
+            }
+        }
+        return players;
     }
 }
