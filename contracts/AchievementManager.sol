@@ -111,4 +111,27 @@ contract AchievementManager {
         }
         return players;
     }
+
+    /// @notice Gets the achievements of a specific player
+    /// @param player Address of the player to retrieve the achievements for
+    /// @return uint256[] The IDs of the achievements unlocked by the player
+    function getAchievementsOfPlayer(address player) public view returns (uint256[] memory) {
+        uint256[] memory playerAchievementsList = new uint256[](totalAchievements);
+        uint256 count = 0;
+
+        for (uint256 i = 0; i < totalAchievements; i++) {
+            if (playerAchievements[player][i]) {
+                playerAchievementsList[count] = i;
+                count++;
+            }
+        }
+
+        // Resize the array to fit the actual number of achievements
+        uint256[] memory result = new uint256[](count);
+        for (uint256 j = 0; j < count; j++) {
+            result[j] = playerAchievementsList[j];
+        }
+
+        return result;
+    }
 }

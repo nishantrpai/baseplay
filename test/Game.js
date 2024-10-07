@@ -123,6 +123,26 @@ describe("Game", function () {
       expect(badges).to.be.an('array');
       expect(players).to.be.an('array');
     });
+
+    it("should get player achievements list", async function () {
+      console.log("Adding achievements");
+      await game.connect(owner).addAchievement(0, "First Win", "First Win Description", "uri_to_image_1");
+      await game.connect(owner).addAchievement(1, "Second Win", "Second Win Description", "uri_to_image_2");
+      await game.connect(owner).addAchievement(2, "Third Win", "Third Win Description", "uri_to_image_3");
+
+      console.log("Unlocking achievements for player1");
+      await game.connect(owner).unlockAchievement(player1.address, 0);
+      await game.connect(owner).unlockAchievement(player1.address, 1);
+
+      console.log("Getting player1 achievements");
+      const playerAchievements = await game.getMyAchievements(player1.address);
+      console.log("Player1 achievements:", playerAchievements);
+
+      expect(playerAchievements).to.be.an('array');
+      expect(playerAchievements.length).to.equal(2);
+      expect(playerAchievements).to.include(BigInt(0));
+      expect(playerAchievements).to.include(BigInt(1));
+    });
   });
 
   describe("Access Control", function () {

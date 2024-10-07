@@ -168,4 +168,9 @@ contract Game {
             players[i] = achievementManager.getPlayersWithAchievement(i);
         }
     }
+
+    // Function: Gets the achievements of a specific player
+    function getMyAchievements(address player) public view returns (uint256[] memory) {
+        return achievementManager.getAchievementsOfPlayer(player);
+    }
 }
