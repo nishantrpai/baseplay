@@ -22,7 +22,31 @@ async function main() {
   const gameAddress = gameCreatedEvent.args.gameAddress;
 
   console.log("Sample Game deployed to:", gameAddress);
-  console.log("Deployment complete!");
+
+  // Interact with the deployed Game contract
+  const Game = await hre.ethers.getContractFactory("Game");
+  const game = Game.attach(gameAddress);
+
+  // Add an achievement to the game
+  const achievementId = 1;
+  const achievementDescription = "First Achievement";
+  const achievementImageURI = "https://cdn-icons-png.flaticon.com/512/2583/2583264.png";
+  await game.addAchievement(achievementId, achievementDescription, achievementImageURI);
+
+  console.log("Added achievement to the game");
+
+  // Update a player's score
+  const [player] = await hre.ethers.getSigners();
+  const score = 100;
+  await game.connect(player).updateScore(score);
+
+  console.log("Updated player's score");
+
+  // Get top players
+  const topPlayers = await game.getTopPlayers();
+  console.log("Top players:", topPlayers);
+
+  console.log("Deployment and interactions complete!");
 }
 
 main()
