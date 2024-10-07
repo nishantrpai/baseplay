@@ -10,9 +10,10 @@ describe("Game", function () {
   beforeEach(async function () {
     [owner, player1, player2] = await ethers.getSigners();
     const Game = await ethers.getContractFactory("Game");
-    game = await Game.deploy();
+    game = await Game.deploy(owner.address, "Test Game", "This is a test game description");
     await game.waitForDeployment();
-    console.log("Game contract deployed");
+    console.log("Game contract deployed with name:", await game.gameName());
+    console.log("Game contract deployed with description:", await game.gameDescription());
   });
 
   describe("Leaderboard", function () {

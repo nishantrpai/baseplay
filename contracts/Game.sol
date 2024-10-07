@@ -5,6 +5,8 @@ pragma solidity ^0.8.24;
 // This contract will be used by GameFactory.sol for making a new contract for each game
 contract Game {
     address public owner;
+    string public gameName;
+    string public gameDescription;
     struct LeaderboardEntry {
         address player;
         uint256 score;
@@ -27,9 +29,12 @@ contract Game {
     event PlayerRemoved(address player);
     event PlayerBanned(address player);
 
-    // Constructor: Sets the contract deployer as the owner
-    constructor() {
-        owner = msg.sender;
+    // Constructor: Sets the provided owner and initializes the game name
+    constructor(address _owner, string memory _gameName, string memory _gameDescription) {
+        require(bytes(_gameDescription).length <= 140, "Description must be 140 characters or less");
+        owner = _owner;
+        gameName = _gameName;
+        gameDescription = _gameDescription;
     }
 
     // Modifier: Ensures only the owner can call certain functions
@@ -50,6 +55,16 @@ contract Game {
         playerScores[msg.sender] = score;
         emit ScoreUpdated(msg.sender, score);
         _updateLeaderboard(msg.sender, score);
+    }
+
+    // Function: Get the game description
+    function getGameDescription() public view returns (string memory) {
+        return gameDescription;
+    }
+
+    // Function: Get the game name
+    function getGameName() public view returns (string memory) {
+        return gameName;
     }
 
     // Internal function to update the leaderboard
