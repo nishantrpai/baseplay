@@ -19,3 +19,13 @@
 # Blockers/Concerns
 
 1. What if players interact directly with contract, for e.g., setting leaderboard?
+
+# Things to add
+
+7 Oct 2024:
+- Get my games in gamefactory
+- Get total players for a game
+- Get leaderboard on game
+- Add link for game, on click it opens game
+- Game preview link from ipfs can be added to the contract
+- Avoid spam with $8/game submission that way no one can spam the games
