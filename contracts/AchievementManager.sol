@@ -11,6 +11,7 @@ contract AchievementManager {
         string description;
         string imageURI;
         AchievementBadge badge;
+        uint256 unlockCount;
     }
 
     /// @dev Mapping of achievement IDs to Achievement structs
@@ -29,7 +30,7 @@ contract AchievementManager {
     /// @param imageURI URI of the image associated with the achievement
     function addAchievement(uint256 achievementId, string memory description, string memory imageURI) public {
         AchievementBadge newBadge = new AchievementBadge(description, imageURI);
-        achievements[achievementId] = Achievement(description, imageURI, newBadge);
+        achievements[achievementId] = Achievement(description, imageURI, newBadge, 0);
         emit AchievementAdded(achievementId, description, imageURI);
     }
 
@@ -42,6 +43,7 @@ contract AchievementManager {
         
         playerAchievements[player][achievementId] = true;
         achievements[achievementId].badge.mint(player);
+        achievements[achievementId].unlockCount++;
         emit AchievementUnlocked(player, achievementId);
     }
 
@@ -60,5 +62,12 @@ contract AchievementManager {
     function getAchievement(uint256 achievementId) public view returns (string memory description, string memory imageURI) {
         Achievement memory achievement = achievements[achievementId];
         return (achievement.description, achievement.imageURI);
+    }
+
+    /// @notice Gets the number of players who have unlocked a specific achievement
+    /// @param achievementId ID of the achievement to check
+    /// @return uint256 The number of players who have unlocked the achievement
+    function getAchievementUnlockCount(uint256 achievementId) public view returns (uint256) {
+        return achievements[achievementId].unlockCount;
     }
 }

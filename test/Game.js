@@ -70,6 +70,10 @@ describe("Game", function () {
       const achievement = await game.getAchievement(1);
       console.log("Achievement description:", achievement.description);
       expect(achievement.description).to.equal("First Win");
+
+      const achievementCount = await game.getAchievementUnlockCount(1);
+      console.log("Achievement unlock count:", achievementCount.toString());
+      expect(achievementCount).to.equal(1); // Expecting the count to be 1 after unlocking
     });
   });
 
