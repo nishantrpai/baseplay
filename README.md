@@ -20,7 +20,9 @@
 
 1. What if players interact directly with contract, for e.g., setting leaderboard?
 
-# Things to add
+# To do:
+
+Includes dashboard, extension and contract.
 
 7 Oct 2024:
 - ~~Get my games in gamefactory~~
@@ -32,3 +34,8 @@
 - ~~Add a game url to game.sol so it avoids so script works on that domain or localhost~~
 - ~~Get all achievements and players who achieved them~~
 - ~~When a user views the leaderboard, they should see the achievements they have achieved~~
+- ~~Get owner and show on game page~~
+- Finish create game page
+- Add achievements to game from dashboard
+- Make extension that allows to connect contract and allows dev to add achievements/leaderboards etc
+- ~~Accelerate dev process with localhost for hardhat~~

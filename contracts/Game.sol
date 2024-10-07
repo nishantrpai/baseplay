@@ -173,4 +173,9 @@ contract Game {
     function getMyAchievements(address player) public view returns (uint256[] memory) {
         return achievementManager.getAchievementsOfPlayer(player);
     }
+
+    // Function: Gets the owner of the game
+    function getOwner() public view returns (address) {
+        return owner;
+    }
 }

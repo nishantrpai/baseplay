@@ -29,10 +29,11 @@ async function main() {
   const game = Game.attach(gameAddress);
 
   // Add an achievement to the game
-  const achievementId = 1;
-  const achievementDescription = "First Achievement";
+  const achievementId = 0;
+  const achievementName = "First Achievement";
+  const achievementDescription = "First Achievement Description";
   const achievementImageURI = "https://cdn-icons-png.flaticon.com/512/2583/2583264.png";
-  await game.addAchievement(achievementId, achievementDescription, achievementImageURI);
+  await game.addAchievement(achievementId, achievementName, achievementDescription, achievementImageURI);
 
   console.log("Added achievement to the game");
 
