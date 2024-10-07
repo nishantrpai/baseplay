@@ -4,6 +4,13 @@ require('dotenv').config();
 const config = {
   solidity: {
     version: '0.8.24',
+    settings: {
+      optimizer: {
+        enabled: true,
+        runs: 200
+      },
+      evmVersion: "paris"
+    }
   },
   networks: {
     // for mainnet
@@ -28,6 +35,7 @@ const config = {
     'hardhat': {
       chainId: 31337,
       gas: 30000000, // Set gas limit to match block gas limit
+      allowUnlimitedContractSize: true, // Allow unlimited contract sizes
     },
   },
   defaultNetwork: 'hardhat',

@@ -23,4 +23,14 @@ contract GameFactory {
     function getAllGames() public view returns (GameInfo[] memory) {
         return games;
     }
+
+    function getGameDescription(uint256 index) public view returns (string memory) {
+        require(index < games.length, "Game index out of bounds");
+        return Game(games[index].gameAddress).getGameDescription();
+    }
+
+    function getGameName(uint256 index) public view returns (string memory) {
+        require(index < games.length, "Game index out of bounds");
+        return Game(games[index].gameAddress).getGameName();
+    }
 }

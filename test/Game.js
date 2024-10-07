@@ -26,6 +26,7 @@ describe("Game", function () {
 
       console.log("Getting top players");
       const topPlayers = await game.getTopPlayers();
+      console.log("Top players:", topPlayers);
       console.log("Top player:", topPlayers[0].player, "Score:", topPlayers[0].score.toString());
       expect(topPlayers[0].player).to.equal(player1.address);
       expect(topPlayers[0].score).to.equal(100);
@@ -46,12 +47,12 @@ describe("Game", function () {
       expect(topPlayers[1].score).to.equal(100);
     });
 
-    it("should emit LeaderboardUpdated event", async function () {
-      console.log("Updating score and checking for LeaderboardUpdated event");
+    it("should emit ScoreUpdated event", async function () {
+      console.log("Updating score and checking for ScoreUpdated event");
       await expect(game.connect(player1).updateScore(100))
-        .to.emit(game, "LeaderboardUpdated")
-        .withArgs(player1.address, 100, 1);
-      console.log("LeaderboardUpdated event emitted successfully");
+        .to.emit(game, "ScoreUpdated")
+        .withArgs(player1.address, 100);
+      console.log("ScoreUpdated event emitted successfully");
     });
   });
 
@@ -68,9 +69,7 @@ describe("Game", function () {
 
       const achievement = await game.getAchievement(1);
       console.log("Achievement description:", achievement.description);
-      const achievementDescription = await game.getAchievement(1);
-      console.log("Achievement description:", achievementDescription.description);
-      expect(achievementDescription.description).to.equal("First Win");
+      expect(achievement.description).to.equal("First Win");
     });
   });
 
