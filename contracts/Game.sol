@@ -22,6 +22,7 @@ contract Game {
     event PlayerRemoved(address indexed player);
     event PlayerBanned(address indexed player);
     event NewPlayerAdded(address indexed player);
+    event PlayerUnbanned(address indexed player);
 
     constructor(address _owner, string memory _gameName, string memory _gameDescription, string memory _gameLink) {
         require(bytes(_gameDescription).length <= 140, "Description must be 140 characters or less");
@@ -99,7 +100,21 @@ contract Game {
     // Can only be called by the owner
     function banPlayer(address player) public onlyOwner {
         bannedPlayers[player] = true;
+        removePlayerFromLeaderboard(player);
         emit PlayerBanned(player);
+    }
+
+    // Function: Check if a player is banned
+    // Can be called by anyone, view function
+    function isPlayerBanned(address player) public view returns (bool) {
+        return bannedPlayers[player];
+    }
+
+    // Function: Remove from banned player list
+    // Can only be called by the owner
+    function removeFromBannedList(address player) public onlyOwner {
+        bannedPlayers[player] = false;
+        emit PlayerUnbanned(player);
     }
 
     // Function: Retrieves the score of a player
@@ -107,6 +122,7 @@ contract Game {
     function getScore(address player) public view returns (uint256) {
         return playerScores[player];
     }
+
 
     // Function: Retrieves the top 10 players
     // This is a view function and doesn't modify the contract state
