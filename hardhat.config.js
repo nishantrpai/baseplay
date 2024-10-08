@@ -37,6 +37,18 @@ const config = {
       gas: 30000000, // Set gas limit to match block gas limit
       allowUnlimitedContractSize: true, // Allow unlimited contract sizes
     },
+    // for local hardhat node
+    'localhost': {
+      url: 'http://127.0.0.1:8545',
+      chainId: 31337,
+      accounts: {
+        mnemonic: "test test test test test test test test test test test junk",
+        path: "m/44'/60'/0'/0",
+        initialIndex: 0,
+        count: 20,
+        passphrase: "",
+      },
+    },
   },
   defaultNetwork: 'hardhat',
   etherscan: {

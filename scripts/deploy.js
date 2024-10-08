@@ -3,6 +3,10 @@ const hre = require("hardhat");
 async function main() {
   console.log("Deploying contracts...");
 
+  // Get the deployer's address
+  const [deployer] = await hre.ethers.getSigners();
+  console.log("Deploying contracts with the account:", deployer.address);
+
   // Deploy GameFactory
   const GameFactory = await hre.ethers.getContractFactory("GameFactory");
   const gameFactory = await GameFactory.deploy();
@@ -33,7 +37,7 @@ async function main() {
   const achievementName = "First Achievement";
   const achievementDescription = "First Achievement Description";
   const achievementImageURI = "https://cdn-icons-png.flaticon.com/512/2583/2583264.png";
-  await game.addAchievement(achievementId, achievementName, achievementDescription, achievementImageURI);
+  await game.addAchievement(achievementName, achievementDescription, achievementImageURI);
 
   console.log("Added achievement to the game");
 

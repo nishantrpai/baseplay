@@ -14,6 +14,7 @@ contract Game {
     mapping(address => uint256) public playerScores;
     mapping(address => bool) public bannedPlayers;
     uint256 public totalPlayers;
+    uint256 public nextAchievementId; // Added variable to track the next achievement ID
 
     AchievementManager public achievementManager;
     LeaderboardManager public leaderboardManager;
@@ -33,6 +34,7 @@ contract Game {
         gameLink = _gameLink; // Initialize game link
         achievementManager = new AchievementManager();
         leaderboardManager = new LeaderboardManager();
+        nextAchievementId = 0; // Initialize the next achievement ID
     }
 
     // Modifier: Ensures only the owner can call certain functions
@@ -76,9 +78,10 @@ contract Game {
 
     // Function: Adds a new achievement to the game
     // Can only be called by the owner
-    function addAchievement(uint256 achievementId, string memory name, string memory description, string memory imageURI) public onlyOwner {
-        achievementManager.addAchievement(achievementId, name, description, imageURI);
-        emit AchievementAdded(achievementId, name, description, imageURI); // Emit event when achievement is added with name
+    function addAchievement(string memory name, string memory description, string memory imageURI) public onlyOwner {
+        achievementManager.addAchievement(nextAchievementId, name, description, imageURI);
+        emit AchievementAdded(nextAchievementId, name, description, imageURI); // Emit event when achievement is added with name
+        nextAchievementId++; // Increment the next achievement ID
     }
 
     // Function: Unlocks an achievement for a player

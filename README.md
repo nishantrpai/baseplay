@@ -25,17 +25,24 @@
 Includes dashboard, extension and contract.
 
 7 Oct 2024:
+
+Contract:
+- Game preview link from ipfs can be added to the contract (later, not needed for now)
+- Avoid spam with $8/game submission that way no one can spam the games
+- ~~Add a game url to game.sol so it avoids so script works on that domain or localhost~~
+- ~~Accelerate dev process with localhost for hardhat~~
+- Verify signature in contract to avoid players directly interacting with contract
+
+Dashboard:
 - ~~Get my games in gamefactory~~
 - ~~Get total players for a game~~
 - ~~Get leaderboard on game~~
 - ~~Add link for game, on click it opens game~~
-- Game preview link from ipfs can be added to the contract
-- Avoid spam with $8/game submission that way no one can spam the games
-- ~~Add a game url to game.sol so it avoids so script works on that domain or localhost~~
 - ~~Get all achievements and players who achieved them~~
 - ~~When a user views the leaderboard, they should see the achievements they have achieved~~
 - ~~Get owner and show on game page~~
 - Finish create game page
 - Add achievements to game from dashboard
+
+Extension:
 - Make extension that allows to connect contract and allows dev to add achievements/leaderboards etc
-- ~~Accelerate dev process with localhost for hardhat~~

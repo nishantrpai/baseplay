@@ -10,7 +10,8 @@ contract GameFactory {
         address gameAddress;
         string gameName;
         string gameDescription;
-        string gameLink; // Added game link to store the game link
+        string gameLink;
+        address owner; // Added owner field to store the game owner's address
     }
 
     GameInfo[] public games;
@@ -20,9 +21,9 @@ contract GameFactory {
     /// @param _gameDescription A brief description of the new game
     /// @param _gameLink The link to the new game
     function createGame(string memory _gameName, string memory _gameDescription, string memory _gameLink) public {
-        Game newGame = new Game(msg.sender, _gameName, _gameDescription, _gameLink); // Pass the game link to the Game contract
+        Game newGame = new Game(msg.sender, _gameName, _gameDescription, _gameLink);
         emit GameCreated(address(newGame), _gameName, _gameDescription);
-        games.push(GameInfo(address(newGame), _gameName, _gameDescription, _gameLink)); // Store the game link
+        games.push(GameInfo(address(newGame), _gameName, _gameDescription, _gameLink, msg.sender)); // Store the owner's address
     }
 
     /// @notice Retrieves all created games
@@ -52,6 +53,14 @@ contract GameFactory {
     /// @return The link of the specified game
     function getGameLink(uint256 index) public view returns (string memory) {
         require(index < games.length, "Game index out of bounds");
-        return Game(games[index].gameAddress).getGameLink(); // Retrieve the game link
+        return Game(games[index].gameAddress).getGameLink();
+    }
+
+    /// @notice Gets the owner of a specific game
+    /// @param index The index of the game in the games array
+    /// @return The address of the game owner
+    function getGameOwner(uint256 index) public view returns (address) {
+        require(index < games.length, "Game index out of bounds");
+        return games[index].owner; // Return the owner's address directly from the GameInfo struct
     }
 }
