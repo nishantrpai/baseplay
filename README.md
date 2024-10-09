@@ -42,7 +42,7 @@ Dashboard:
 - ~~When a user views the leaderboard, they should see the achievements they have achieved~~
 - ~~Get owner and show on game page~~
 - Finish create game page
-- Add achievements to game from dashboard
+- ~~Add achievements to game from dashboard~~
 
 Extension:
 - Make extension that allows to connect contract and allows dev to add achievements/leaderboards etc

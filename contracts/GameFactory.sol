@@ -20,10 +20,12 @@ contract GameFactory {
     /// @param _gameName The name of the new game
     /// @param _gameDescription A brief description of the new game
     /// @param _gameLink The link to the new game
-    function createGame(string memory _gameName, string memory _gameDescription, string memory _gameLink) public {
+    /// @return success A boolean indicating whether the game creation was successful
+    function createGame(string memory _gameName, string memory _gameDescription, string memory _gameLink) public returns (bool success) {
         Game newGame = new Game(msg.sender, _gameName, _gameDescription, _gameLink);
         emit GameCreated(address(newGame), _gameName, _gameDescription);
         games.push(GameInfo(address(newGame), _gameName, _gameDescription, _gameLink, msg.sender)); // Store the owner's address
+        return true;
     }
 
     /// @notice Retrieves all created games

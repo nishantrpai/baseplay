@@ -26,6 +26,9 @@ describe("GameFactory", function () {
         console.log("Games after creation:", games);
         expect(games.length).to.equal(1);
         expect(games[0].gameName).to.equal(gameName);
+        expect(games[0].gameDescription).to.equal(gameDescription); // Check game description
+        expect(games[0].gameLink).to.equal(gameLink); // Check game link
+        expect(games[0].owner).to.equal(owner.address); // Check game owner
         expect(ethers.isAddress(games[0].gameAddress)).to.be.true;
     });
 
@@ -44,7 +47,13 @@ describe("GameFactory", function () {
         console.log("All games:", games);
         expect(games.length).to.equal(2);
         expect(games[0].gameName).to.equal(gameName1);
+        expect(games[0].gameDescription).to.equal(gameDescription1); // Check game description
+        expect(games[0].gameLink).to.equal(gameLink1); // Check game link
+        expect(games[0].owner).to.equal(owner.address); // Check game owner
         expect(games[1].gameName).to.equal(gameName2);
+        expect(games[1].gameDescription).to.equal(gameDescription2); // Check game description
+        expect(games[1].gameLink).to.equal(gameLink2); // Check game link
+        expect(games[1].owner).to.equal(owner.address); // Check game owner
         expect(ethers.isAddress(games[0].gameAddress)).to.be.true;
         expect(ethers.isAddress(games[1].gameAddress)).to.be.true;
     });
