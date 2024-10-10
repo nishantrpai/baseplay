@@ -7,49 +7,41 @@ contract LeaderboardManager {
         uint256 score;
     }
 
-    mapping(address => LeaderboardEntry[10]) public gameLeaderboards;
+    mapping(address => LeaderboardEntry[10]) private gameLeaderboards;
     
     event LeaderboardUpdated(address indexed game, address indexed player, uint256 score, uint256 position);
 
-    function updateLeaderboard(address game, address player, uint256 score) public {
+    function updateLeaderboard(address game, address player, uint256 score) external {
         LeaderboardEntry[10] storage leaderboard = gameLeaderboards[game];
-        uint256 position = _findPosition(leaderboard, score);
+        uint256 position;
+        for (; position < 10; ++position) {
+            if (score > leaderboard[position].score) break;
+        }
 
         if (position < 10) {
-            // Shift lower scores down
-            for (uint256 i = 9; i > position; i--) {
-                leaderboard[i] = leaderboard[i-1];
+            for (uint256 i = 9; i > position; --i) {
+                leaderboard[i] = leaderboard[i - 1];
             }
-            // Insert new high score
             leaderboard[position] = LeaderboardEntry(player, score);
             emit LeaderboardUpdated(game, player, score, position + 1);
         }
     }
 
-    function getTopPlayers(address game) public view returns (LeaderboardEntry[10] memory) {
+    function getTopPlayers(address game) external view returns (LeaderboardEntry[10] memory) {
         return gameLeaderboards[game];
     }
 
-    function _findPosition(LeaderboardEntry[10] storage leaderboard, uint256 score) private view returns (uint256) {
-        for (uint256 i = 0; i < 10; i++) {
-            if (score > leaderboard[i].score) {
-                return i;
-            }
-        }
-        return 10;
-    }
-
-    function removePlayerFromLeaderboard(address game, address player) public {
+    function removePlayerFromLeaderboard(address game, address player) external {
         LeaderboardEntry[10] storage leaderboard = gameLeaderboards[game];
-        for (uint256 i = 0; i < 10; i++) {
+        for (uint256 i; i < 10;) {
             if (leaderboard[i].player == player) {
-                // Shift lower scores up
-                for (uint256 j = i; j < 9; j++) {
-                    leaderboard[j] = leaderboard[j+1];
+                for (uint256 j = i; j < 9; ++j) {
+                    leaderboard[j] = leaderboard[j + 1];
                 }
                 leaderboard[9] = LeaderboardEntry(address(0), 0);
                 break;
             }
+            unchecked { ++i; }
         }
     }
 }

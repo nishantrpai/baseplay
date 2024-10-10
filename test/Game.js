@@ -2,6 +2,7 @@ const { expect } = require("chai");
 const { ethers } = require("hardhat");
 
 describe("Game", function () {
+  let gameFactory;
   let game;
   let owner;
   let player1;
@@ -9,33 +10,56 @@ describe("Game", function () {
 
   beforeEach(async function () {
     [owner, player1, player2] = await ethers.getSigners();
+    const GameFactory = await ethers.getContractFactory("GameFactory");
+    gameFactory = await GameFactory.deploy();
+    await gameFactory.waitForDeployment();
+
+    const gameName = "Test Game";
+    const gameDescription = "This is a test game description";
+    const gameLink = "https://example.com/test-game";
+    
+    await gameFactory.createGame(gameName, gameDescription, gameLink);
+    
+    const gameInfo = await gameFactory.getGameInfo(0);
     const Game = await ethers.getContractFactory("Game");
-    const gameLink = "https://example.com/test-game"; // Added game link
-    game = await Game.deploy(owner.address, "Test Game", "This is a test game description", gameLink);
-    await game.waitForDeployment();
+    game = Game.attach(gameInfo.gameAddress);
+
     console.log("Game contract deployed with name:", await game.gameName());
     console.log("Game contract deployed with description:", await game.gameDescription());
-    console.log("Game contract deployed with link:", await game.getGameLink()); // Log the game link
+    console.log("Game contract deployed with link:", await game.gameLink());
   });
 
   describe("Leaderboard", function () {
     it("should update score and leaderboard", async function () {
       console.log("Updating score for player1");
       await game.connect(player1).updateScore(100);
-      const score = await game.getScore(player1.address);
-      console.log("Player1 score:", score.toString());
-      expect(score).to.equal(100);
+      const score1 = await game.playerScores(player1.address);
+      console.log("Top players:", await game.getTopPlayers());
+      console.log("Player1 score:", score1.toString());
+      expect(score1).to.equal(100);
 
-      const totalPlayers = await game.getTotalPlayers();
+      console.log("Updating score for player2");
+      await game.connect(player2).updateScore(200);
+      const score2 = await game.playerScores(player2.address);
+      console.log("Top players:", await game.getTopPlayers());
+      console.log("Player2 score:", score2.toString());
+      expect(score2).to.equal(200);
+
+      const totalPlayers = await game.totalPlayers();
       console.log("Total players:", totalPlayers.toString());
-      expect(totalPlayers).to.equal(1);
+      expect(totalPlayers).to.equal(2);
 
       console.log("Getting top players");
       const topPlayers = await game.getTopPlayers();
       console.log("Top players:", topPlayers);
+
       console.log("Top player:", topPlayers[0].player, "Score:", topPlayers[0].score.toString());
-      expect(topPlayers[0].player).to.equal(player1.address);
-      expect(topPlayers[0].score).to.equal(100);
+      expect(topPlayers[0].player).to.equal(player2.address);
+      expect(topPlayers[0].score).to.equal(200);
+
+      console.log("Second player:", topPlayers[1].player, "Score:", topPlayers[1].score.toString());
+      expect(topPlayers[1].player).to.equal(player1.address);
+      expect(topPlayers[1].score).to.equal(100);
     });
 
     it("should maintain top 10 players in descending order", async function () {
@@ -43,12 +67,13 @@ describe("Game", function () {
       await game.connect(player1).updateScore(100);
       await game.connect(player2).updateScore(200);
 
-      const totalPlayers = await game.getTotalPlayers();
+      const totalPlayers = await game.totalPlayers();
       console.log("Total players:", totalPlayers.toString());
       expect(totalPlayers).to.equal(2);
 
       console.log("Getting top players");
       const topPlayers = await game.getTopPlayers();
+      console.log("Top players:", topPlayers);
       console.log("Top player:", topPlayers[0].player, "Score:", topPlayers[0].score.toString());
       console.log("Second player:", topPlayers[1].player, "Score:", topPlayers[1].score.toString());
       expect(topPlayers[0].player).to.equal(player2.address);
@@ -83,7 +108,7 @@ describe("Game", function () {
 
       const achievementCount = await game.getAchievementUnlockCount(0);
       console.log("Achievement unlock count:", achievementCount.toString());
-      expect(achievementCount).to.equal(1); // Expecting the count to be 1 after unlocking
+      expect(achievementCount).to.equal(1);
     });
 
     it("should get all achievements", async function () {
@@ -93,25 +118,6 @@ describe("Game", function () {
       await game.connect(owner).addAchievement("Third Win", "Third Win Description", "uri_to_image_3");
 
       console.log("Getting all achievements");
-      const [names, descriptions, badges, playerCounts] = await game.getAllAchievements();
-      console.log("Achievements names:", names);
-      console.log("Achievements descriptions:", descriptions);
-      console.log("Achievements badges:", badges);
-      console.log("Achievements player counts:", playerCounts);
-
-      expect(names).to.be.an('array');
-      expect(descriptions).to.be.an('array');
-      expect(badges).to.be.an('array');
-      expect(playerCounts).to.be.an('array');
-    });
-
-    it("should show achievements from Game.sol", async function () {
-      console.log("Adding achievements");
-      await game.connect(owner).addAchievement("First Win", "First Win Description", "uri_to_image_1");
-      await game.connect(owner).addAchievement("Second Win", "Second Win Description", "uri_to_image_2");
-      await game.connect(owner).addAchievement("Third Win", "Third Win Description", "uri_to_image_3");
-
-      console.log("Showing achievements from Game.sol");
       const [names, descriptions, badges, playerCounts] = await game.getAllAchievements();
       console.log("Achievements names:", names);
       console.log("Achievements descriptions:", descriptions);
@@ -152,7 +158,7 @@ describe("Game", function () {
         .to.not.be.reverted;
       console.log("Score updated successfully");
 
-      const score = await game.getScore(player1.address);
+      const score = await game.playerScores(player1.address);
       expect(score).to.equal(100);
     });
 
@@ -162,10 +168,10 @@ describe("Game", function () {
         .to.not.be.reverted;
       console.log("Player1 updated their own score successfully");
 
-      const player1Score = await game.getScore(player1.address);
+      const player1Score = await game.playerScores(player1.address);
       expect(player1Score).to.equal(200);
 
-      const player2Score = await game.getScore(player2.address);
+      const player2Score = await game.playerScores(player2.address);
       expect(player2Score).to.equal(0);
       console.log("Player2's score remains unchanged");
     });
@@ -173,35 +179,40 @@ describe("Game", function () {
     it("should allow the owner to remove a player from the leaderboard", async function () {
       console.log("Updating score for player1");
       await game.connect(player1).updateScore(100);
-      const score = await game.getScore(player1.address);
+      const score = await game.playerScores(player1.address);
       expect(score).to.equal(100);
 
-      console.log("Removing player1 from the leaderboard");
+      console.log("Removing player1 from the leaderboard", player1.address);
       await game.connect(owner).removePlayerFromLeaderboard(player1.address);
-      const updatedScore = await game.getScore(player1.address);
+      const updatedScore = await game.playerScores(player1.address);
       expect(updatedScore).to.equal(0);
 
       const topPlayers = await game.getTopPlayers();
-      expect(topPlayers.some(player => player.player === player1.address)).to.be.false;
+      console.log("Top players:", topPlayers);
+      expect(topPlayers[0].player).to.equal(ethers.ZeroAddress);
+      expect(topPlayers[0].score).to.equal(0);
     });
 
     it("should allow the owner to ban a player", async function () {
       console.log("Banning player1");
       await game.connect(owner).banPlayer(player1.address);
-      await expect(game.connect(player1).updateScore(100)).to.be.revertedWith("Player is banned");
+      await expect(game.connect(player1).updateScore(100)).to.be.revertedWith("Banned");
 
-      const score = await game.getScore(player1.address);
+      const isBanned = await game.bannedPlayers(player1.address);
+      expect(isBanned).to.be.true;
+
+      const score = await game.playerScores(player1.address);
       expect(score).to.equal(0);
     });
 
     it("should not allow a player to remove another player from the leaderboard", async function () {
       console.log("Attempting to remove player2 from the leaderboard as player1");
-      await expect(game.connect(player1).removePlayerFromLeaderboard(player2.address)).to.be.revertedWith("Only the owner can call this function");
+      await expect(game.connect(player1).removePlayerFromLeaderboard(player2.address)).to.be.revertedWith("Not owner");
     });
 
     it("should not allow a player to ban another player", async function () {
       console.log("Attempting to ban player2 as player1");
-      await expect(game.connect(player1).banPlayer(player2.address)).to.be.revertedWith("Only the owner can call this function");
+      await expect(game.connect(player1).banPlayer(player2.address)).to.be.revertedWith("Not owner");
     });
   });
 });

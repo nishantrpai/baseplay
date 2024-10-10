@@ -1,15 +1,15 @@
 const hre = require("hardhat");
 
 async function main() {
-  console.log("Deploying Game contract...");
+  console.log("Deploying GameFactory contract...");
 
-  // Deploy Game contract
-  const Game = await hre.ethers.getContractFactory("Game");
-  const game = await Game.deploy();
-  await game.waitForDeployment();
+  // Deploy GameFactory contract
+  const GameFactory = await hre.ethers.getContractFactory("GameFactory");
+  const gameFactory = await GameFactory.deploy();
+  await gameFactory.waitForDeployment();
 
-  const gameAddress = await game.getAddress();
-  console.log("Game deployed to:", gameAddress);
+  const gameFactoryAddress = await gameFactory.getAddress();
+  console.log("GameFactory deployed to:", gameFactoryAddress);
 
   console.log("Deployment complete!");
 }

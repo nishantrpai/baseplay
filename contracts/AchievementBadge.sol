@@ -2,59 +2,64 @@
 pragma solidity ^0.8.24;
 
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
-import "@openzeppelin/contracts/access/Ownable.sol";
 
-contract AchievementBadge is ERC721, Ownable {
+contract AchievementBadge is ERC721 {
+    uint256 private immutable _creationTime;
     uint256 private _tokenIds;
     string private _badgeURI;
     string private _description;
     uint256 private _achievedCount;
+    address private immutable _owner;
 
-    constructor(string memory description, string memory badgeURI) ERC721("Achievement Badge", "BADGE") Ownable(msg.sender) {
+    error Unauthorized();
+    error InvalidTokenId();
+
+    constructor(string memory description, string memory badgeURI) ERC721("Achievement Badge", "BADGE") {
         _description = description;
         _badgeURI = badgeURI;
+        _owner = msg.sender;
+        _creationTime = block.timestamp;
     }
 
-    /// @notice Sets a new URI for the badge
-    /// @param newBadgeURI The new URI to set for the badge
-    function setBadgeURI(string memory newBadgeURI) public onlyOwner {
+    modifier onlyOwner() {
+        if (msg.sender != _owner) revert Unauthorized();
+        _;
+    }
+
+    function setBadgeURI(string calldata newBadgeURI) external onlyOwner {
         _badgeURI = newBadgeURI;
     }
 
-    /// @notice Sets a new description for the achievement
-    /// @param newDescription The new description to set for the achievement
-    function setDescription(string memory newDescription) public onlyOwner {
+    function setDescription(string calldata newDescription) external onlyOwner {
         _description = newDescription;
     }
 
-    /// @notice Mints a new achievement badge for a player
-    /// @param player The address of the player to mint the badge for
-    /// @return The ID of the newly minted token
-    function mint(address player) public onlyOwner returns (uint256) {
-        _tokenIds++;
-        uint256 newTokenId = _tokenIds;
+    function mint(address player) external onlyOwner returns (uint256 newTokenId) {
+        unchecked {
+            newTokenId = ++_tokenIds;
+            ++_achievedCount;
+        }
         _safeMint(player, newTokenId);
-        _achievedCount++;
-        return newTokenId;
     }
 
-    /// @notice Returns the URI for a given token ID
-    /// @param tokenId The ID of the token to get the URI for
-    /// @return The URI string for the given token ID
     function tokenURI(uint256 tokenId) public view override returns (string memory) {
-        require(tokenId > 0 && tokenId <= _tokenIds, "Invalid token ID");
+        if (tokenId == 0 || tokenId > _tokenIds) revert InvalidTokenId();
         return _badgeURI;
     }
 
-    /// @notice Gets the description of the achievement
-    /// @return The description string of the achievement
-    function getDescription() public view returns (string memory) {
+    function getDescription() external view returns (string memory) {
         return _description;
     }
 
-    /// @notice Gets the total count of achievements awarded
-    /// @return The total number of achievements that have been awarded
-    function getAchievedCount() public view returns (uint256) {
+    function getAchievedCount() external view returns (uint256) {
         return _achievedCount;
+    }
+
+    function owner() external view returns (address) {
+        return _owner;
+    }
+
+    function creationTime() external view returns (uint256) {
+        return _creationTime;
     }
 }
