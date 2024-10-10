@@ -30,6 +30,7 @@ Contract:
 - ~~Add a game url to game.sol so it avoids so script works on that domain or localhost~~
 - ~~Accelerate dev process with localhost for hardhat~~
 - Verify signature in contract to avoid players directly interacting with contract
+- Check on testnet
 
 Dashboard:
 - ~~Get my games in gamefactory~~
@@ -41,9 +42,12 @@ Dashboard:
 - ~~Get owner and show on game page~~
 - ~~Finish create game page~~
 - ~~Add achievements to game from dashboard~~
+- Check on testnet
 
 Extension:
-- Make extension that allows to connect contract and allows dev to add achievements/leaderboards etc
+- ~~Make extension that allows to connect contract and allows dev to add achievements/leaderboards etc~~
+- Check on testnet
+- Failing on localhost for some reason, need to debug
 
 - Documentation notes:
   - img should be >= 30x30

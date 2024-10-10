@@ -24,6 +24,11 @@ const config = {
       url: 'https://sepolia.base.org',
       accounts: [process.env.WALLET_KEY],
       gasPrice: 1000000000,
+      blockGasLimit: 0x1fffffffffffff,
+      throwOnTransactionFailures: true,
+      throwOnCallFailures: true,
+      allowUnlimitedContractSize: true,
+      timeout: 1800000
     },
     // for local dev environment
     'base-local': {
@@ -36,6 +41,10 @@ const config = {
       chainId: 31337,
       gas: 30000000, // Set gas limit to match block gas limit
       allowUnlimitedContractSize: true, // Allow unlimited contract sizes
+      mining: {
+        auto: true,
+        interval: 0
+      }
     },
     // for local hardhat node
     'localhost': {

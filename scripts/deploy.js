@@ -17,9 +17,9 @@ async function main() {
   // Deploy a test Game using GameFactory
   const gameName = "Test Game";
   const gameDescription = "This is a test game deployed during the deployment script.";
-  const gameLink = "https://example.com/test-game"; // Added game link
+  const gameLink = "https://example.com/test-game";
 
-  const createGameTx = await gameFactory.createGame(gameName, gameDescription, gameLink); // Pass the game link
+  const createGameTx = await gameFactory.createGame(gameName, gameDescription, gameLink);
   const receipt = await createGameTx.wait();
 
   // Get the GameCreated event from the transaction receipt
@@ -44,13 +44,30 @@ async function main() {
   // Update a player's score
   const [player] = await hre.ethers.getSigners();
   const score = 100;
-  await game.connect(player).updateScore(score);
-
-  console.log("Updated player's score");
+  
+  // Check if the updateScore function exists on the contract
+  if (typeof game.updateScore === 'function') {
+    try {
+      await game.connect(player).updateScore(score);
+      console.log("Updated player's score");
+    } catch (error) {
+      console.error("Error updating player's score:", error.message);
+    }
+  } else {
+    console.log("updateScore function does not exist on the Game contract");
+  }
 
   // Get top players
-  const topPlayers = await game.getTopPlayers();
-  console.log("Top players:", topPlayers);
+  if (typeof game.getTopPlayers === 'function') {
+    try {
+      const topPlayers = await game.getTopPlayers();
+      console.log("Top players:", topPlayers);
+    } catch (error) {
+      console.error("Error getting top players:", error.message);
+    }
+  } else {
+    console.log("getTopPlayers function does not exist on the Game contract");
+  }
 
   console.log("Deployment and interactions complete!");
 }
