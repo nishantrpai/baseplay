@@ -24,8 +24,6 @@
 
 Includes dashboard, extension and contract.
 
-7 Oct 2024:
-
 Contract:
 - Game preview link from ipfs can be added to the contract (later, not needed for now)
 - Avoid spam with $8/game submission that way no one can spam the games
@@ -41,8 +39,11 @@ Dashboard:
 - ~~Get all achievements and players who achieved them~~
 - ~~When a user views the leaderboard, they should see the achievements they have achieved~~
 - ~~Get owner and show on game page~~
-- Finish create game page
+- ~~Finish create game page~~
 - ~~Add achievements to game from dashboard~~
 
 Extension:
 - Make extension that allows to connect contract and allows dev to add achievements/leaderboards etc
+
+- Documentation notes:
+  - img should be >= 30x30
