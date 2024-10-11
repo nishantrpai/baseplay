@@ -31,6 +31,7 @@ Contract:
 - ~~Accelerate dev process with localhost for hardhat~~
 - Verify signature in contract to avoid players directly interacting with contract
 - Check on testnet
+- Remove the drop of achievement, we only want to keep a transaction on chain without signing it
 
 Dashboard:
 - ~~Get my games in gamefactory~~
@@ -47,7 +48,8 @@ Dashboard:
 Extension:
 - ~~Make extension that allows to connect contract and allows dev to add achievements/leaderboards etc~~
 - Check on testnet
-- Failing on localhost for some reason, need to debug
+- ~~Failing on localhost for some reason, need to debug~~
+- All achievements are saved on localstorage by default, if player wants to save on chain, devs can add option to save on chain
 
 - Documentation notes:
   - img should be >= 30x30

@@ -55,6 +55,13 @@ contract Game {
     }
 
     function addAchievement(string calldata name, string calldata description, string calldata imageURI) external onlyOwner {
+        require(bytes(name).length > 0, "Name cannot be empty");
+        require(bytes(description).length > 0, "Description cannot be empty");
+        require(bytes(imageURI).length > 0, "Image URI cannot be empty");
+        if (playerScores[msg.sender] == 0) {
+            unchecked { ++totalPlayers; }
+            emit NewPlayerAdded(msg.sender);
+        }
         achievementManager.addAchievement(nextAchievementId, name, description, imageURI);
         emit AchievementAdded(nextAchievementId, name, description, imageURI);
         unchecked { ++nextAchievementId; }
