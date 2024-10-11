@@ -53,3 +53,7 @@ Extension:
 
 - Documentation notes:
   - img should be >= 30x30
+
+TODO: 
+- Use onchainkit
+- Use smart wallets
