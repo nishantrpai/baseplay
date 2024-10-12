@@ -2,11 +2,7 @@
 
 ![Baseplay Logo](baseplay.png)
 
-🚀 Baseplay is an alternative to Google Play Games on Base. It allows devs to easily add achievements, leaderboards on the base chain without having to worry about databases, auth, and security.
-
-Players can showcase their achievements and leaderboards directly on Base.
-
-Devs can see how many players have joined their game, and what achievements they have completed from the dashboard.
+🚀 Baseplay: Add achievements and leaderboards for your web game on Base easily.
 
 ## 🤔 Why?
 
