@@ -29,16 +29,13 @@ On Android, Google Play Games is the de-facto standard for adding achievements a
 
 If you want to verify the contract on [sepolia](https://base-sepolia.blockscout.com/address/0xccBDDaf9aDCEe8b2005557dd6352A0AC55B963A5?tab=contract)
 
-
-
-
 ### 🚀 Setup in game
 
 To integrate Baseplay into your game:
 
 1. Include the Baseplay service script in your HTML file:
    ```html
-   <script id="baseplay-service" src="service.js?gameId=YOUR_GAME_ADDRESS"></script>
+   <script id="baseplay-service" src="https://baseplay.vercel.app/service.js?gameId=YOUR_GAME_ADDRESS"></script>
    ```
    Replace `YOUR_GAME_ADDRESS` with your actual game contract address.
 
