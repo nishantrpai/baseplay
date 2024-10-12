@@ -58,16 +58,16 @@ contract Game {
         require(bytes(name).length > 0, "Name cannot be empty");
         require(bytes(description).length > 0, "Description cannot be empty");
         require(bytes(imageURI).length > 0, "Image URI cannot be empty");
-        if (playerScores[msg.sender] == 0) {
-            unchecked { ++totalPlayers; }
-            emit NewPlayerAdded(msg.sender);
-        }
         achievementManager.addAchievement(nextAchievementId, name, description, imageURI);
         emit AchievementAdded(nextAchievementId, name, description, imageURI);
         unchecked { ++nextAchievementId; }
     }
 
     function unlockAchievement(address player, uint256 achievementId) external onlyOwner {
+        if (playerScores[player] == 0) {
+            unchecked { ++totalPlayers; }
+            emit NewPlayerAdded(player);
+        }
         achievementManager.unlockAchievement(player, achievementId);
     }
 
