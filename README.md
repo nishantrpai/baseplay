@@ -2,11 +2,16 @@
 
 ![Baseplay Logo](baseplay.png)
 
-🚀 Baseplay is a platform for creating and playing games on the Base blockchain.
+🚀 Baseplay is an alternative to Google Play Games on Base. It allows devs to easily add achievements, leaderboards, without having to worry about databases, auth, and security.
+
+In addition, it allows players to connect their wallets and see their achievements and leaderboard directly on chain.
 
 ## 🤔 Why?
 
-💎 People want to use their onchain assets to build games, but managing databases, auth, and security is time-consuming.
+One of my friends is currently building a game on Base, and he mentioned that managing databases, auth, and security is time-consuming.
+
+Since most of us are used to Google Play Games, I thought of creating a similar experience on Base.
+
 
 🏆 Baseplay provides on-chain services like leaderboards and achievements, similar to Google Play Games for Android.
 
