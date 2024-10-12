@@ -2,16 +2,19 @@
 
 ![Baseplay Logo](baseplay.png)
 
-🚀 Baseplay is an alternative to Google Play Games on Base. It allows devs to easily add achievements, leaderboards, without having to worry about databases, auth, and security.
+🚀 Baseplay is an alternative to Google Play Games on Base. It allows devs to easily add achievements, leaderboards on the base chain without having to worry about databases, auth, and security.
 
-In addition, it allows players to connect their wallets and see their achievements and leaderboard directly on chain.
+Players can showcase their achievements and leaderboards directly on Base.
+
+Devs can see how many players have joined their game, and what achievements they have completed from the dashboard.
 
 ## 🤔 Why?
 
-One of my friends is currently building a game on Base, and he mentioned that managing databases, auth, and security is time-consuming.
+One of my friends is currently building a game using on-chain nfts(scapes, mfers), and he mentioned that managing databases, auth, and security costs him time and money.
 
-Since most of us are used to Google Play Games, I thought of creating a similar experience on Base.
+I used to build games on Android, and I was used to Google Play Games, so I thought of creating a similar experience on Base.
 
+On Android, Google Play Games is the de-facto standard for adding achievements and leaderboards to games.
 
 🏆 Baseplay provides on-chain services like leaderboards and achievements, similar to Google Play Games for Android.
 
@@ -64,11 +67,12 @@ For a detailed example of how to use these functions, check out our [example imp
 - Add achievements to game from dashboard
 - Make extension that allows to connect contract and allows dev to add achievements/leaderboards etc
 - Fix the issue with localhost
-- All achievements are saved on localstorage by default, if player wants to save on chain, devs can add option to save on chain
+- All achievements are saved on localstorage by default, if player wants to save on-chain, devs can add option to save on-chain
 - Add leaderboard to the extension similar to achievements
 - Check on testnet
 
 ### Remaining by priority:
+- Add screenshot to README
 - Verify signature in contract to avoid players directly interacting with contract
 - Use onchainkit
 - Use smart wallets
