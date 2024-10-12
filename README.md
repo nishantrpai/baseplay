@@ -19,12 +19,12 @@
 3. Fill in the required details for your game
 4. Once created, you can view your game or click on "My Games" to see all your created games
 
-Check the contract on [sepolia](https://base-sepolia.blockscout.com/address/0xccBDDaf9aDCEe8b2005557dd6352A0AC55B963A5?tab=contract)
+If you want to verify the contract on [sepolia](https://base-sepolia.blockscout.com/address/0xccBDDaf9aDCEe8b2005557dd6352A0AC55B963A5?tab=contract)
 
 
 
 
-## 🚀 Setup for Developers
+### 🚀 Setup in game
 
 To integrate Baseplay into your game:
 
@@ -38,7 +38,7 @@ To integrate Baseplay into your game:
 
 For a detailed example of how to use these functions, check out our [example implementation](https://baseplay.vercel.app/example.html?gameId=0x326A2498A19f2AfA60EDECbc49BB785fa4cE3297).
 
-## 🏆 Adding Achievements
+### 🏆 Adding Achievements
 
 1. Go to your game's page on the dashboard
 2. Click on "Add Achievement"
