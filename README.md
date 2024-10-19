@@ -19,6 +19,7 @@ On Android, Google Play Games is the de-facto standard for adding achievements a
 ## 🛠️ How to Use
 
 1. Go to the [Baseplay Dashboard](https://baseplay.vercel.app/index.html)
+   ![Dashboard Screenshot](dashboard.jpeg)
 2. Create a new game by clicking on "Create Game"
 3. Fill in the required details for your game
 4. Once created, you can view your game or click on "My Games" to see all your created games
@@ -45,6 +46,12 @@ For a detailed example of how to use these functions, check out our [example imp
 2. Click on "Add Achievement"
 3. Fill in the achievement details (name, description, image)
 4. The image should be at least 30x30 pixels
+   ![Leaderboard Screenshot](leaderboard.jpeg)
+   ![Achievements Screenshot](achievements.png)
+
+### 📹 Demo
+Check out our demo [here](https://www.youtube.com/watch?v=jEidnre-nsw).
+
 
 ## 📋 To-Do List
 
